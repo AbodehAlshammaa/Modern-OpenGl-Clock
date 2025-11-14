@@ -173,7 +173,7 @@ int main()
         vec3(-0.012f, (1 / 2.2f - 0.25f) + 1.0f, 0.001f),
         vec3(0.012f, (1 / 2.2f - 0.25f) + 1.0f, 0.001f),
         vec3(0.012f, 1.0f, 0.001f) };
-    Polygon secondHand(secVerts, vec3(0, 0, 0));
+    Polygon secondHand(secVerts, vec3(1, 0, 0));
     Polygon minuteHand(minVerts, vec3(0, 0, 0));
     Polygon hourHand(hourVerts, vec3(0, 0, 0));
 
