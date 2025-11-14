@@ -1,7 +1,9 @@
-// GLProject.cpp : 3D Wooden Clock with Glass Cover
+﻿// GLProject.cpp : 3D Wooden Clock with Glass Cover - REAL TIME
 // -------------------------------------------------
 
 #include <iostream>
+#include <chrono>
+#include <ctime>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <learnopengl/shader_m.h>
@@ -18,6 +20,51 @@ int height = 1080;
 vec3 cameraPos = vec3(0.0f, 0.0f, 4.0f);
 vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
 vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
+
+// ------------------------------------------------------------
+// Get real system time components
+// ------------------------------------------------------------
+void getCurrentTime(int& hours, int& minutes, int& seconds, float& milliseconds)
+{
+    // Using C++ chrono for precise time
+    auto now = std::chrono::system_clock::now();
+    auto now_time_t = std::chrono::system_clock::to_time_t(now);
+    std::tm local_tm;
+
+#ifdef _WIN32
+    localtime_s(&local_tm, &now_time_t);
+#else
+    localtime_r(&now_time_t, &local_tm);
+#endif
+
+    hours = local_tm.tm_hour;
+    minutes = local_tm.tm_min;
+    seconds = local_tm.tm_sec;
+
+    // Get milliseconds
+    auto duration = now.time_since_epoch();
+    milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() % 1000;
+}
+
+// ------------------------------------------------------------
+// Convert time to rotation angles
+// ------------------------------------------------------------
+void timeToAngles(int hours, int minutes, int seconds, float milliseconds,
+    float& hourAngle, float& minuteAngle, float& secondAngle)
+{
+    // Normalize hours to 12-hour format
+    hours = hours % 12;
+
+    // Calculate angles in radians
+    // Seconds: 0-59 seconds → 0-360 degrees (6 degrees per second)
+    secondAngle = radians((seconds + milliseconds / 1000.0f) * 6.0f);
+
+    // Minutes: 0-59 minutes → 0-360 degrees (6 degrees per minute)  
+    minuteAngle = radians((minutes + seconds / 60.0f) * 6.0f);
+
+    // Hours: 0-11 hours → 0-360 degrees (30 degrees per hour)
+    hourAngle = radians((hours + minutes / 60.0f) * 30.0f);
+}
 
 // ------------------------------------------------------------
 // Handle keyboard input for camera movement
@@ -54,24 +101,24 @@ void processInput(GLFWwindow* window)
         cameraFront = vec3(rotationMatrix * vec4(cameraFront, 0.0f));
     }
 }
-std::vector<vec3> DrawSphere(vec3 positions, float radius) {
+
+std::vector<vec3> drawSphere(vec3 positions, float radius) {
     std::vector<glm::vec3> vertices;
-    int stacks = 30; // Number of subdivisions along the vertical axis
-    int slices = 30; // Number of subdivisions along the horizontal axis
+    int stacks = 20; // Reduced for better performance
+    int slices = 20;
     for (int i = 0; i <= stacks; ++i) {
         float V = (float)i / (float)stacks;
-        float phi = V * glm::pi<float>(); // Latitude angle
+        float phi = V * glm::pi<float>();
 
         for (int j = 0; j <= slices; ++j) {
             float U = (float)j / (float)slices;
-            float theta = U * (glm::pi<float>() * 2); // Longitude angle
+            float theta = U * (glm::pi<float>() * 2);
 
             float x = cosf(theta) * sinf(phi);
             float y = cosf(phi);
             float z = sinf(theta) * sinf(phi);
 
             vertices.push_back(glm::vec3(x, y, z) * radius + positions);
-            // Calculate normals and texture coordinates similarly
         }
     }
     return vertices;
@@ -83,7 +130,7 @@ std::vector<vec3> DrawSphere(vec3 positions, float radius) {
 int main()
 {
     glfwInit();
-    GLFWwindow* window = glfwCreateWindow(width, height, "Wooden Clock", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(width, height, "Real Time Wooden Clock", NULL, NULL);
     glfwMakeContextCurrent(window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glEnable(GL_DEPTH_TEST);
@@ -173,48 +220,39 @@ int main()
         vec3(-0.012f, (1 / 2.2f - 0.25f) + 1.0f, 0.001f),
         vec3(0.012f, (1 / 2.2f - 0.25f) + 1.0f, 0.001f),
         vec3(0.012f, 1.0f, 0.001f) };
-    Polygon secondHand(secVerts, vec3(1, 0, 0));
-    Polygon minuteHand(minVerts, vec3(0, 0, 0));
-    Polygon hourHand(hourVerts, vec3(0, 0, 0));
+    Polygon secondHand(secVerts, vec3(1, 0, 0));  // Red second hand
+    Polygon minuteHand(minVerts, vec3(0, 0, 0));  // Black minute hand                    
+    Polygon hourHand(hourVerts, vec3(0, 0, 0));   // Black hour hand
 
     // ------------------------------------------------------------
     // GLASS COVER
     // ------------------------------------------------------------
-
     std::vector<vec3> glassVerts;
-
     for (float i = 0; i < 400; i++)
     {
         glassVerts.push_back(vec3(cos(i) / 2.2f, sin(i) / 2.2f + 1.0f, 0.01f));
     }
     Polygon GlassPolygon(glassVerts, vec3(1.0f, 1.0f, 1.0f));
 
-
-    // ----------------------
-    // dancer
-    // --------------------
+    // ------------------------------------------------------------
+    // DANCER/PENDULUM
+    // ------------------------------------------------------------
     vec3 positions(0.0f, -0.8f, -0.1f);
     float radius = 0.2f;
-    Polygon DancerCirclelePolygon = Polygon(DrawSphere(positions, radius), midWood);
+    Polygon DancerCirclelePolygon = Polygon(drawSphere(positions, radius), midWood);
 
-   
-
-    std::vector<vec3> dancerRectangleVertsFrontFace = {}; // front
-    dancerRectangleVertsFrontFace.push_back(vec3(-0.1f, 0.2f, -0.075f)); // TOP LEFT
-    dancerRectangleVertsFrontFace.push_back(vec3(-0.1f, -0.8f, -0.075f)); // DOWN LEFT
-    dancerRectangleVertsFrontFace.push_back(vec3(0.1f, -0.8f, -0.075f)); // DOWN RIGHT
-    dancerRectangleVertsFrontFace.push_back(vec3(0.1f, 0.2f, -0.075f));
-
+    std::vector<vec3> dancerRectangleVertsFrontFace = {
+        vec3(-0.1f, 0.2f, -0.075f), // TOP LEFT
+        vec3(-0.1f, -0.8f, -0.075f), // DOWN LEFT
+        vec3(0.1f, -0.8f, -0.075f), // DOWN RIGHT
+        vec3(0.1f, 0.2f, -0.075f) };
     Polygon DancerRectanglePolygonFrontFace(dancerRectangleVertsFrontFace, vec3(1.0f, 1.0f, 0.0f));
 
-
-
-
-    std::vector<vec3> dancerRectangleVertsBackFace = {}; // back
-    dancerRectangleVertsBackFace.push_back(vec3(-0.1f, 0.2f, -0.15f)); // TOP LEFT
-    dancerRectangleVertsBackFace.push_back(vec3(-0.1f, -0.8f, -0.15f)); // DOWN LEFT
-    dancerRectangleVertsBackFace.push_back(vec3(0.1f, -0.8f, -0.15f)); // DOWN RIGHT
-    dancerRectangleVertsBackFace.push_back(vec3(0.1f, 0.2f, -0.15f));
+    std::vector<vec3> dancerRectangleVertsBackFace = {
+        vec3(-0.1f, 0.2f, -0.15f), // TOP LEFT
+        vec3(-0.1f, -0.8f, -0.15f), // DOWN LEFT
+        vec3(0.1f, -0.8f, -0.15f), // DOWN RIGHT
+        vec3(0.1f, 0.2f, -0.15f) };
     Polygon DancerRectanglePolygonBackFace(dancerRectangleVertsBackFace, vec3(1.0f, 1.0f, 0.0f));
 
     // ------------------------------------------------------------
@@ -245,11 +283,20 @@ int main()
         Polygon6.draw(ourShader);
         Polygon7.draw(ourShader);
 
-        // Time-based rotations for hands
-        float t = glfwGetTime();
-        //draw dancer 
+        // Get REAL system time
+        int hours, minutes, seconds;
+        float milliseconds;
+        getCurrentTime(hours, minutes, seconds, milliseconds);
+
+        // Convert to rotation angles
+        float hourAngle, minuteAngle, secondAngle;
+        timeToAngles(hours, minutes, seconds, milliseconds,
+            hourAngle, minuteAngle, secondAngle);
+
+        // Draw dancer with real-time synchronized swinging
         mat4 dancerTrans = mat4(1.0f);
-        float swingAngle = 0.3f * sin(5.0f * glfwGetTime());
+
+        float swingAngle = 0.2f * sin(9.8 * glfwGetTime());
         dancerTrans = rotate(dancerTrans, swingAngle, vec3(0.0f, 0.0f, -1.0f));
         DancerCirclelePolygon.transformation(dancerTrans);
         DancerRectanglePolygonFrontFace.transformation(dancerTrans);
@@ -258,35 +305,35 @@ int main()
         DancerRectanglePolygonFrontFace.draw(ourShader);
         DancerRectanglePolygonBackFace.draw(ourShader);
 
-
         // Draw clock face
         ClockFace.draw(ourShader);
 
-
-        // Seconds
+        // REAL TIME Clock hands using system time
+        // Seconds hand
         mat4 secTrans = mat4(1.0f);
         secTrans = translate(secTrans, vec3(0.0f, 1.0f, 0.0f));
-        secTrans = rotate(secTrans, 5.0f * t, vec3(0.0f, 0.0f, -1.0f));
+        secTrans = rotate(secTrans, secondAngle, vec3(0.0f, 0.0f, -1.0f));
         secTrans = translate(secTrans, vec3(0.0f, -1.0f, 0.0f));
         secondHand.transformation(secTrans);
         secondHand.draw(ourShader);
 
-        // Minutes
+        // Minutes hand
         mat4 minTrans = mat4(1.0f);
         minTrans = translate(minTrans, vec3(0.0f, 1.0f, 0.0f));
-        minTrans = rotate(minTrans, (5.0f * t) / 60.0f, vec3(0.0f, 0.0f, -1.0f));
+        minTrans = rotate(minTrans, minuteAngle, vec3(0.0f, 0.0f, -1.0f));
         minTrans = translate(minTrans, vec3(0.0f, -1.0f, 0.0f));
         minuteHand.transformation(minTrans);
         minuteHand.draw(ourShader);
 
-        // Hours
+        // Hours hand
         mat4 hourTrans = mat4(1.0f);
         hourTrans = translate(hourTrans, vec3(0.0f, 1.0f, 0.0f));
-        hourTrans = rotate(hourTrans, (5.0f * t) / 3600.0f, vec3(0.0f, 0.0f, -1.0f));
+        hourTrans = rotate(hourTrans, hourAngle, vec3(0.0f, 0.0f, -1.0f));
         hourTrans = translate(hourTrans, vec3(0.0f, -1.0f, 0.0f));
         hourHand.transformation(hourTrans);
         hourHand.draw(ourShader);
-        //Draw the glass cover last (blending enabled)
+
+        // Draw the glass cover last (blending enabled)
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         ourShader.setFloat("alpha", 0.1f);
