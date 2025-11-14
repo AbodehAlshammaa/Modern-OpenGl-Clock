@@ -193,26 +193,30 @@ int main()
     // ----------------------
     // dancer
     // --------------------
-    std::vector<vec3> dancerCircleVerts = {};
-
-    for (float i = 0; i < 400; i++)
-    {
-        dancerCircleVerts.push_back(vec3(cos(i) / 5.0f, sin(i) / 5.0f - 0.8f, -0.1f));
-
-    }
-    Polygon DancerCirclelePolygon(dancerCircleVerts, vec3(1.0f, 1.0f, 0.0f));
-
-    std::vector<vec3> dancerRectangleVerts = {};
-    dancerRectangleVerts.push_back(vec3(-0.1f, 0.2f, -0.1f)); // TOP LEFT
-    dancerRectangleVerts.push_back(vec3(-0.1f, -0.8f, -0.1f)); // DOWN LEFT
-    dancerRectangleVerts.push_back(vec3(0.1f, -0.8f, -0.1f)); // DOWN RIGHT
-    dancerRectangleVerts.push_back(vec3(0.1f, 0.2f, -0.1f));
-
-    Polygon DancerRectanglePolygon(dancerRectangleVerts, vec3(1.0f, 1.0f, 0.0f));
     vec3 positions(0.0f, -0.8f, -0.1f);
     float radius = 0.2f;
+    Polygon DancerCirclelePolygon = Polygon(DrawSphere(positions, radius), midWood);
 
-    Polygon p = Polygon(DrawSphere(positions, radius), midWood);
+   
+
+    std::vector<vec3> dancerRectangleVertsFrontFace = {}; // front
+    dancerRectangleVertsFrontFace.push_back(vec3(-0.1f, 0.2f, -0.075f)); // TOP LEFT
+    dancerRectangleVertsFrontFace.push_back(vec3(-0.1f, -0.8f, -0.075f)); // DOWN LEFT
+    dancerRectangleVertsFrontFace.push_back(vec3(0.1f, -0.8f, -0.075f)); // DOWN RIGHT
+    dancerRectangleVertsFrontFace.push_back(vec3(0.1f, 0.2f, -0.075f));
+
+    Polygon DancerRectanglePolygonFrontFace(dancerRectangleVertsFrontFace, vec3(1.0f, 1.0f, 0.0f));
+
+
+
+
+    std::vector<vec3> dancerRectangleVertsBackFace = {}; // back
+    dancerRectangleVertsBackFace.push_back(vec3(-0.1f, 0.2f, -0.15f)); // TOP LEFT
+    dancerRectangleVertsBackFace.push_back(vec3(-0.1f, -0.8f, -0.15f)); // DOWN LEFT
+    dancerRectangleVertsBackFace.push_back(vec3(0.1f, -0.8f, -0.15f)); // DOWN RIGHT
+    dancerRectangleVertsBackFace.push_back(vec3(0.1f, 0.2f, -0.15f));
+    Polygon DancerRectanglePolygonBackFace(dancerRectangleVertsBackFace, vec3(1.0f, 1.0f, 0.0f));
+
     // ------------------------------------------------------------
     // SHADER CONFIGURATION
     // ------------------------------------------------------------
@@ -247,10 +251,12 @@ int main()
         mat4 dancerTrans = mat4(1.0f);
         dancerTrans = rotate(dancerTrans, 5.0f * cos(t) / 8, vec3(0.0f, 0.0f, -1.0f));
         DancerCirclelePolygon.transformation(dancerTrans);
-        DancerRectanglePolygon.transformation(dancerTrans);
+        DancerRectanglePolygonFrontFace.transformation(dancerTrans);
+        DancerRectanglePolygonBackFace.transformation(dancerTrans);
         DancerCirclelePolygon.draw(ourShader);
-        DancerRectanglePolygon.draw(ourShader);
-        p.transformation(dancerTrans);
+        DancerRectanglePolygonFrontFace.draw(ourShader);
+        DancerRectanglePolygonBackFace.draw(ourShader);
+
 
         // Draw clock face
         ClockFace.draw(ourShader);
@@ -279,7 +285,6 @@ int main()
         hourTrans = translate(hourTrans, vec3(0.0f, -1.0f, 0.0f));
         hourHand.transformation(hourTrans);
         hourHand.draw(ourShader);
-        p.draw(ourShader);
         //Draw the glass cover last (blending enabled)
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
