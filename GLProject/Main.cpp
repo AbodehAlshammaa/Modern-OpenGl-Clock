@@ -249,7 +249,8 @@ int main()
         float t = glfwGetTime();
         //draw dancer 
         mat4 dancerTrans = mat4(1.0f);
-        dancerTrans = rotate(dancerTrans, 5.0f * cos(t) / 8, vec3(0.0f, 0.0f, -1.0f));
+        float swingAngle = 0.3f * sin(5.0f * glfwGetTime());
+        dancerTrans = rotate(dancerTrans, swingAngle, vec3(0.0f, 0.0f, -1.0f));
         DancerCirclelePolygon.transformation(dancerTrans);
         DancerRectanglePolygonFrontFace.transformation(dancerTrans);
         DancerRectanglePolygonBackFace.transformation(dancerTrans);
