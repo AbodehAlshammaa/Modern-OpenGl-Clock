@@ -42,34 +42,29 @@ void getCurrentTime(int& hours, int& minutes, int& seconds, float& milliseconds)
     minutes = local_tm.tm_min;
     seconds = local_tm.tm_sec;
 
-    // Get milliseconds
+    
     auto duration = now.time_since_epoch();
     milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() % 1000;
 }
 
-// ------------------------------------------------------------
-// Convert time to rotation angles
-// ------------------------------------------------------------
+
 void timeToAngles(int hours, int minutes, int seconds, float milliseconds,
     float& hourAngle, float& minuteAngle, float& secondAngle)
 {
-    // Normalize hours to 12-hour format
+    
     hours = hours % 12;
 
-    // Calculate angles in radians
-    // Seconds: 0-59 seconds → 0-360 degrees (6 degrees per second)
+    
     secondAngle = radians((seconds + milliseconds / 1000.0f) * 6.0f);
 
-    // Minutes: 0-59 minutes → 0-360 degrees (6 degrees per minute)  
+    
     minuteAngle = radians((minutes + seconds / 60.0f) * 6.0f);
 
-    // Hours: 0-11 hours → 0-360 degrees (30 degrees per hour)
+   
     hourAngle = radians((hours + minutes / 60.0f) * 30.0f);
 }
 
-// ------------------------------------------------------------
-// Handle keyboard input for camera movement
-// ------------------------------------------------------------
+
 void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -177,78 +172,6 @@ struct NumberFont {
         segments = list;
     }
 };
-
-// ---- Simple vector-stroke digits ----
-
-
-
-NumberFont NUM_2 = {
-    {{-0.4, 0.7}, {0.4, 0.7}},
-    {{0.4, 0.7}, {0.4, 0.0}},
-    {{0.4, 0.0}, {-0.4, 0.0}},
-    {{-0.4, 0.0}, {-0.4, -0.7}},
-    {{-0.4, -0.7}, {0.4, -0.7}}
-};
-
-NumberFont NUM_3 = {
-    {{-0.4, 0.7}, {0.4, 0.7}},
-    {{0.4, 0.7}, {0.4, -0.7}},
-    {{0.4, -0.7}, {-0.4, -0.7}},
-    {{-0.4, 0.0}, {0.4, 0.0}}
-};
-
-NumberFont NUM_4 = {
-    {{-0.4, 0.7}, {-0.4, 0.0}},
-    {{-0.4, 0.0}, {0.4, 0.0}},
-    {{0.4, 0.7}, {0.4, -0.7}}
-};
-
-NumberFont NUM_5 = {
-    {{0.4, 0.7}, {-0.4, 0.7}},
-    {{-0.4, 0.7}, {-0.4, 0.0}},
-    {{-0.4, 0.0}, {0.4, 0.0}},
-    {{0.4, 0.0}, {0.4, -0.7}},
-    {{0.4, -0.7}, {-0.4, -0.7}}
-};
-
-NumberFont NUM_6 = {
-    {{0.4, 0.7}, {-0.4, 0.7}},
-    {{-0.4, 0.7}, {-0.4, -0.7}},
-    {{-0.4, -0.7}, {0.4, -0.7}},
-    {{0.4, -0.7}, {0.4, 0.0}},
-    {{0.4, 0.0}, {-0.4, 0.0}}
-};
-
-NumberFont NUM_7 = {
-    {{-0.4, 0.7}, {0.4, 0.7}},
-    {{0.4, 0.7}, {0.0, -0.7}}
-};
-
-NumberFont NUM_8 = {
-    {{-0.4, 0.7}, {0.4, 0.7}},
-    {{-0.4, 0.0}, {0.4, 0.0}},
-    {{-0.4, -0.7}, {0.4, -0.7}},
-    {{-0.4, 0.7}, {-0.4, -0.7}},
-    {{0.4, 0.7}, {0.4, -0.7}}
-};
-
-NumberFont NUM_9 = {
-    {{-0.4, 0.7}, {0.4, 0.7}},
-    {{0.4, 0.7}, {0.4, -0.7}},
-    {{0.4, 0.0}, {-0.4, 0.0}},
-    {{-0.4, 0.0}, {-0.4, 0.7}}
-};
-
-NumberFont NUM_0 = {
-    {{-0.4, 0.7}, {0.4, 0.7}},
-    {{-0.4, -0.7}, {0.4, -0.7}},
-    {{-0.4, 0.7}, {-0.4, -0.7}},
-    {{0.4, 0.7}, {0.4, -0.7}}
-};
-
-// ------- Numbers 10, 11, 12 use two digits ------- 
-
-
 int main()
 {
 
@@ -431,13 +354,13 @@ int main()
     std::vector<vec3> minVerts = {
         vec3(-0.01f, 1.0f, 0.001f),
         vec3(-0.01f, (1 / 2.2f - 0.15f) + 1.0f, 0.001f),
-        vec3(0.01f, (1 / 2.2f - 0.15f) + 1.0f, 0.001f),
-        vec3(0.01f, 1.0f, 0.001f) };
+        vec3(0.01f, (1 / 2.2f - 0.15f) + 1.0f, 0.0001f),
+        vec3(0.01f, 1.0f, 0.0001f) };
 
     std::vector<vec3> hourVerts = {
         vec3(-0.012f, 1.0f, 0.001f),
-        vec3(-0.012f, (1 / 2.2f - 0.25f) + 1.0f, 0.001f),
-        vec3(0.012f, (1 / 2.2f - 0.25f) + 1.0f, 0.001f),
+        vec3(-0.012f, (1 / 2.2f - 0.25f) + 1.0f, 0.00001f),
+        vec3(0.012f, (1 / 2.2f - 0.25f) + 1.0f, 0.00001f),
         vec3(0.012f, 1.0f, 0.001f) };
     Polygon secondHand(secVerts, vec3(1, 0, 0));  // Red second hand
     Polygon minuteHand(minVerts, vec3(0, 0, 0));  // Black minute hand                    
