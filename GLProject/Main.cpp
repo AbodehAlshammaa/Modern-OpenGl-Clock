@@ -162,6 +162,88 @@ int main()
         vec3(0.6f, 1.6f, -0.2f) };
     Polygon Polygon3(backFace, darkWood);
 
+    std::vector<vec3> vertices15 = {};  // Back Big RECTANGLE 
+    vertices15.push_back(vec3(-1.2f, 2.0f, -1.0f)); // Top LEFT
+    vertices15.push_back(vec3(-1.2f, -1.0f, -1.0f)); // Down LEFT
+    vertices15.push_back(vec3(1.2f, -1.0f, -1.0)); // Down Right
+    vertices15.push_back(vec3(1.2f, 2.0f, -1.0)); // Top Right
+    Polygon Polygon15 = Polygon(vertices15, vec3(1.0f, 1.0f, 1.0f));
+
+    std::vector<vec3> vertices16 = {};  // Left Side Big RECTANGLE 
+    vertices16.push_back(vec3(-1.2f, 2.0f, -1.0f)); // Top LEFT
+    vertices16.push_back(vec3(-1.2f, -1.0f, -1.0f)); // Down LEFT
+    vertices16.push_back(vec3(-1.2f, -1.0f, 1.0)); // Down Right
+    vertices16.push_back(vec3(-1.2f, 2.0f, 1.0)); // Top Right
+    Polygon Polygon16 = Polygon(vertices16, vec3(1.0f, 1.0f, 1.0f));
+
+    std::vector<vec3> vertices17 = {};  // Right side Big RECTANGLE 
+    vertices17.push_back(vec3(1.2f, -1.0f, -1.0)); // Down Right
+    vertices17.push_back(vec3(1.2f, 2.0f, -1.0)); // Top Right
+    vertices17.push_back(vec3(1.2f, 2.0f, 1.0f)); // Top LEFT
+    vertices17.push_back(vec3(1.2f, -1.0f, 1.0f)); // Down LEFT
+    Polygon Polygon17 = Polygon(vertices17, vec3(1.0f, 1.0f, 1.0f));
+
+    std::vector<vec3> vertices18 = {};  // Down side Big RECTANGLE 
+    vertices18.push_back(vec3(-1.2f, -1.0f, -1.0f)); // Down LEFT Back
+    vertices18.push_back(vec3(-1.2f, -1.0f, 1.0)); // Down Left Front
+    vertices18.push_back(vec3(1.2f, -1.0f, 1.0f)); // Down Right front   
+    vertices18.push_back(vec3(1.2f, -1.0f, -1.0)); // Down Right back
+    Polygon Polygon18 = Polygon(vertices18, vec3(1.0f, 0.0f, 0.0f));
+
+    std::vector<vec3> vertices19 = {};  // Up side Big RECTANGLE 
+    vertices19.push_back(vec3(-1.2f, 2.0f, -1.0f)); // back Top LEFT
+    vertices19.push_back(vec3(-1.2f, 2.0f, 1.0)); // front Top Left
+    vertices19.push_back(vec3(1.2f, 2.0f, 1.0f)); // front Top Right
+    vertices19.push_back(vec3(1.2f, 2.0f, -1.0)); // back Top Right
+    Polygon Polygon19 = Polygon(vertices19, vec3(1.0f, 0.0f, 0.0f));
+
+    std::vector<vec3> vertices20 = {};  // Front Up Door  
+    vertices20.push_back(vec3(-1.2f, 2.0f, 1.0)); // front Top Left
+    vertices20.push_back(vec3(-1.2f, 1.8f, 1.0)); // front down Left
+    vertices20.push_back(vec3(1.2f, 1.8f, 1.0f)); // front dowm Right
+    vertices20.push_back(vec3(1.2f, 2.0f, 1.0f)); // front Top Right
+    Polygon Polygon20 = Polygon(vertices20, vec3(0.0f, 0.0f, 1.0f));
+
+    std::vector<vec3> vertices21 = {};  // lefr side Door  
+    vertices21.push_back(vec3(-1.2f, 2.0f, 1.0)); //  Top Left
+    vertices21.push_back(vec3(-1.2f, -1.0f, 1.0)); // Down left
+    vertices21.push_back(vec3(-1.0f, -1.0f, 1.0)); // Down Right
+    vertices21.push_back(vec3(-1.0f, 2.0f, 1.0)); //  Top right
+    Polygon Polygon21 = Polygon(vertices21, vec3(0.0f, 0.0f, 1.0f));
+
+    std::vector<vec3> vertices22 = {};  // Front down Door  
+    vertices22.push_back(vec3(-1.2f, -0.8f, 1.0)); // top lefr
+    vertices22.push_back(vec3(-1.2f, -1.0f, 1.0)); // Down lefr
+    vertices22.push_back(vec3(1.2f, -1.0f, 1.0f)); // Down right
+    vertices22.push_back(vec3(1.2f, -0.8f, 1.0f)); // top right
+    Polygon Polygon22 = Polygon(vertices22, vec3(0.0f, 0.0f, 1.0f));
+
+    std::vector<vec3> vertices23 = {};  // right side Door  
+    vertices23.push_back(vec3(1.0f, 2.0f, 1.0f)); // Top LEFT
+    vertices23.push_back(vec3(1.0f, -1.0f, 1.0f)); // Down LEFT
+    vertices23.push_back(vec3(1.2f, -1.0f, 1.0f)); // Down right
+    vertices23.push_back(vec3(1.2f, 2.0f, 1.0f)); // Top right
+    Polygon Polygon23 = Polygon(vertices23, vec3(0.0f, 0.0f, 1.0f));
+
+    std::vector<vec3> vertices24 = {};  // back Circle
+    for (float i = 0; i < 30; i++) {
+        vertices24.push_back(vec3(cos(i) / 10, sin(i) / 10 + 1.0f, -0.201f)); // TOP LEFT
+    }
+    Polygon Polygon24 = Polygon(vertices24, vec3(0.0f, 0.0f, 0.0f));
+    std::vector<Polygon> MarkCircle = {};  // mark Circle
+    for (float i = 0, j = 0; i < 12, j <= 360; i++, j += 30) {
+        float x = cos(radians(j)) / 2.8f;
+        float y = sin(radians(j)) / 2.8f;
+        std::vector<vec3> vertices25 = {
+        vec3(x - 0.025f, y - 0.05f + 1.0f, 0.001f), // keft down
+        vec3(x + 0.025f, y - 0.05f + 1.0f, 0.001f), // right down
+        vec3(x + 0.025f, y + 0.05f + 1.0f, 0.001f), // top right
+        vec3(x - 0.025f, y + 0.05f + 1.0f, 0.001f) // top left
+        };
+        Polygon mark(vertices25, vec3(0.0f, 0.0f, 0.0f));
+
+        MarkCircle.push_back(mark);
+    }
     std::vector<vec3> leftFace = {
         vec3(-0.6f, 1.6f, -0.2f),
         vec3(-0.3f, 0.0f, -0.2f),
@@ -282,7 +364,31 @@ int main()
         Polygon5.draw(ourShader);
         Polygon6.draw(ourShader);
         Polygon7.draw(ourShader);
+        // back circle
+        mat4 transformation4 = mat4(1.0f);
 
+        transformation4 = translate(transformation4, glm::vec3(0.0f, 1.0f, 0.0f));
+        transformation4 = rotate(transformation4, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, -1.0f));
+        transformation4 = translate(transformation4, glm::vec3(0.0f, -1.0f, 0.0f));
+
+        Polygon24.transformation(transformation4);
+        Polygon24.draw(ourShader);
+
+        Polygon15.draw(ourShader);
+        Polygon16.draw(ourShader);
+        Polygon17.draw(ourShader);
+        Polygon18.draw(ourShader);
+        Polygon19.draw(ourShader);
+        Polygon20.draw(ourShader);
+        Polygon21.draw(ourShader);
+        Polygon22.draw(ourShader);
+        Polygon23.draw(ourShader);
+        Polygon24.draw(ourShader);
+
+        for (auto mark : MarkCircle)
+        {
+            mark.draw(ourShader);
+        }
         // Get REAL system time
         int hours, minutes, seconds;
         float milliseconds;
