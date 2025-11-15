@@ -446,33 +446,40 @@ int main()
 
     std::vector<Polygon> MarkCircle;
 
-    for (float i = 0, j = 360; i < 60, j < 360; i++, j += 6) {
-        float x = cos(radians(j)) / 2.8f;
-        float y = sin(radians(j)) / 2.8f;
+    for (int i = 0; i < 60; i++) {
+        float angle = i * 6.0f; // 6 degrees per minute mark
+        float x = sin(radians(angle)) / 2.2f; // Match clock face radius
+        float y = cos(radians(angle)) / 2.2f + 1.0f; // Center at y=1.0
 
-        if (i == 0 || i == 90 || i == 180 || i == 270) {
-            std::vector<vec3> markVertices = {
-                vec3(x - 0.05f / 2, y - 0.1f / 2, 0.001f),
-                vec3(x + 0.05f / 2, y - 0.1f / 2, 0.001f),
-                vec3(x + 0.05f / 2, y + 0.1f / 2, 0.001f),
-                vec3(x - 0.05f / 2, y + 0.1f / 2, 0.001f)
+        // Use consistent z-coordinate (slightly above clock face)
+        float z = 0.002f;
+        std::vector<vec3> markVertices;
+        if (i % 5 == 0) { // Hour marks (every 5 minutes)
+             markVertices = {
+                vec3(x - 0.01f, y - 0.05f , z),
+                vec3(x + 0.01f, y - 0.05f , z),
+                vec3(x + 0.01f, y  , z),
+                vec3(x - 0.01f, y , z)
             };
-            Polygon mark(markVertices, vec3(1.0f, 0.0f, 1.0f));
-            MarkCircle.push_back(mark);
-
+          
         }
-        else {
-            std::vector<vec3> markVertices = {
-               vec3(x - 0.005f / 2, y - 0.08f / 2, 0.001f),
-               vec3(x + 0.005f / 2, y - 0.08f / 2, 0.001f),
-               vec3(x + 0.005f / 2, y + 0.08f / 2, 0.001f),
-               vec3(x - 0.005f / 2, y + 0.08f / 2, 0.001f)
+        else { // Minute marks
+           markVertices = {
+                vec3(x-0.005, y - 0.03, z),
+                vec3(x+0.005, y - 0.03f, z),
+                vec3(x+0.005, y , z),
+                vec3(x-0.005, y , z)
             };
-            Polygon mark(markVertices, vec3(1.0f, 1.0f, 1.0f));
-            MarkCircle.push_back(mark);
         }
+        Polygon mark(markVertices, vec3(0.0f, 0.0f, 0.0f)); // Black for hour marks
 
-
+            mat4 trans = mat4(1.0);
+            trans = translate(trans, vec3(x, y , z));
+            trans = rotate(trans,-radians((float)angle), vec3(0, 0, 1));
+            trans = translate(trans, vec3(-(x), -(y), z));
+            mark.transformation(trans);
+            MarkCircle.push_back(mark);
+            
     }
 
     //std::vector<PolygonLine> MarkCircle = {};  // mark Circle
