@@ -131,6 +131,7 @@
     <ClCompile Include="..\OpenGL.SharedModule\src\glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Polygon.cpp" />
+    <ClCompile Include="PolygonLine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenGL.SharedModule\OpenGL.SharedModule.vcxproj">
@@ -140,6 +141,9 @@
   <ItemGroup>
     <None Include="shaders\fs\L3.fs" />
     <None Include="shaders\vs\L3.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PolygonLine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
