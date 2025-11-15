@@ -72,20 +72,34 @@ void processInput(GLFWwindow* window)
 
     const float cameraSpeed = 0.02f;
 
+    // Forward / Backward
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         cameraPos += cameraSpeed * cameraFront;
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         cameraPos -= cameraSpeed * cameraFront;
+
+    // Left / Right strafing
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         cameraPos -= normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPos += normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
 
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-        cameraPos -= cameraUp * cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    // Vertical movement using CTRL and SHIFT
+    // Move UP (CTRL)
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    {
         cameraPos += cameraUp * cameraSpeed;
+    }
 
+    // Move DOWN (SHIFT)
+    if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS ||
+        glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+    {
+        cameraPos -= cameraUp * cameraSpeed;
+    }
+
+    // Rotations
+    // Rotate left/right (yaw)
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
     {
         mat4 rotationMatrix = glm::rotate(mat4(1.0f), 0.01f, vec3(0.0f, 1.0f, 0.0f));
@@ -96,7 +110,22 @@ void processInput(GLFWwindow* window)
         mat4 rotationMatrix = glm::rotate(mat4(1.0f), -0.01f, vec3(0.0f, 1.0f, 0.0f));
         cameraFront = vec3(rotationMatrix * vec4(cameraFront, 0.0f));
     }
+
+    // Rotate up/down (pitch)
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        vec3 cameraRight = normalize(cross(cameraFront, cameraUp));
+        mat4 rotationMatrix = glm::rotate(mat4(1.0f), 0.01f, cameraRight);
+        cameraFront = vec3(rotationMatrix * vec4(cameraFront, 0.0f));
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        vec3 cameraRight = normalize(cross(cameraFront, cameraUp));
+        mat4 rotationMatrix = glm::rotate(mat4(1.0f), -0.01f, cameraRight);
+        cameraFront = vec3(rotationMatrix * vec4(cameraFront, 0.0f));
+    }
 }
+
 
 std::vector<vec3> drawSphere(vec3 positions, float radius) {
     std::vector<glm::vec3> vertices;
@@ -333,19 +362,19 @@ int main()
     N.push_back(PolygonLine(numTwo(3), vec3(0.0f, 0.0f, 0.0f)));
 
     N.push_back(PolygonLine(numOne(30), vec3(0.0f, 0.0f, 0.0f)));
-    
+
     N.push_back(PolygonLine(numTwo(60), vec3(0.0f, 0.0f, 0.0f)));
-  
+
     N.push_back(PolygonLine(numThree(90), vec3(0.0f, 0.0f, 0.0f)));
-    
+
     N.push_back(PolygonLine(numFour(120), vec3(0.0f, 0.0f, 0.0f)));
 
     N.push_back(PolygonLine(numFive(150), vec3(0.0f, 0.0f, 0.0f)));
 
     N.push_back(PolygonLine(numSix(180), vec3(0.0f, 0.0f, 0.0f)));
-    
+
     N.push_back(PolygonLine(numSeven(210), vec3(0.0f, 0.0f, 0.0f)));
-    
+
     N.push_back(PolygonLine(numEight(240), vec3(0.0f, 0.0f, 0.0f)));
 
     N.push_back(PolygonLine(numNine(270), vec3(0.0f, 0.0f, 0.0f)));
@@ -358,7 +387,7 @@ int main()
     numOneTranslated.transformation(transformOne);
     N.push_back(PolygonLine(numOne(330), vec3(0.0f, 0.0f, 0.0f)));
     N.push_back(numOneTranslated);
-    
+
 
     std::vector<vec3> frontFace = {
         vec3(-0.6f, 1.6f, -0.001f),
@@ -466,31 +495,31 @@ int main()
         float z = 0.002f;
         std::vector<vec3> markVertices;
         if (i % 5 == 0) { // Hour marks (every 5 minutes)
-             markVertices = {
-                vec3(x - 0.01f, y - 0.04f , z),
-                vec3(x + 0.01f, y - 0.04f , z),
-                vec3(x + 0.01f, y  , z),
-                vec3(x - 0.01f, y , z)
+            markVertices = {
+               vec3(x - 0.01f, y - 0.04f , z),
+               vec3(x + 0.01f, y - 0.04f , z),
+               vec3(x + 0.01f, y  , z),
+               vec3(x - 0.01f, y , z)
             };
-          
+
         }
         else { // Minute marks
-           markVertices = {
-                vec3(x-0.005, y - 0.03, z),
-                vec3(x+0.005, y - 0.03f, z),
-                vec3(x+0.005, y , z),
-                vec3(x-0.005, y , z)
+            markVertices = {
+                 vec3(x - 0.005, y - 0.03, z),
+                 vec3(x + 0.005, y - 0.03f, z),
+                 vec3(x + 0.005, y , z),
+                 vec3(x - 0.005, y , z)
             };
         }
         Polygon mark(markVertices, vec3(0.0f, 0.0f, 0.0f)); // Black for hour marks
 
-            mat4 trans = mat4(1.0);
-            trans = translate(trans, vec3(x, y , z));
-            trans = rotate(trans,-radians((float)angle), vec3(0, 0, 1));
-            trans = translate(trans, vec3(-(x), -(y), z));
-            mark.transformation(trans);
-            MarkCircle.push_back(mark);
-            
+        mat4 trans = mat4(1.0);
+        trans = translate(trans, vec3(x, y, z));
+        trans = rotate(trans, -radians((float)angle), vec3(0, 0, 1));
+        trans = translate(trans, vec3(-(x), -(y), z));
+        mark.transformation(trans);
+        MarkCircle.push_back(mark);
+
     }
 
     //std::vector<PolygonLine> MarkCircle = {};  // mark Circle
@@ -590,7 +619,7 @@ int main()
     vec3 dancerSphereColor = vec3(0.58f, 0.45f, 0.32f); // Walnut
     float radius = 0.1;
     Polygon DancerCirclelePolygon = Polygon(drawSphere(positions, radius), midWood);
-    vec3 dancerBodyColor = vec3(0,0,0);  // Cherry wood
+    vec3 dancerBodyColor = vec3(0, 0, 0);  // Cherry wood
     std::vector<vec3> dancerBodyVertsFrontFace = {
         // Top (wider)
         vec3(-0.07f, 0.2f, -0.075f),
