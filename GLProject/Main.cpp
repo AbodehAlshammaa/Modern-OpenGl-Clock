@@ -42,7 +42,7 @@ void getCurrentTime(int& hours, int& minutes, int& seconds, float& milliseconds)
     minutes = local_tm.tm_min;
     seconds = local_tm.tm_sec;
 
-    
+
     auto duration = now.time_since_epoch();
     milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() % 1000;
 }
@@ -51,16 +51,16 @@ void getCurrentTime(int& hours, int& minutes, int& seconds, float& milliseconds)
 void timeToAngles(int hours, int minutes, int seconds, float milliseconds,
     float& hourAngle, float& minuteAngle, float& secondAngle)
 {
-    
+
     hours = hours % 12;
 
-    
+
     secondAngle = radians((seconds + milliseconds / 1000.0f) * 6.0f);
 
-    
+
     minuteAngle = radians((minutes + seconds / 60.0f) * 6.0f);
 
-   
+
     hourAngle = radians((hours + minutes / 60.0f) * 30.0f);
 }
 
@@ -112,9 +112,7 @@ std::vector<vec3> drawSphere(vec3 positions, float radius) {
 
             float x = cosf(theta) * sinf(phi);
             float y = cosf(phi);
-            float z = sinf(theta) * sinf(phi);
-
-            vertices.push_back(glm::vec3(x, y, z) * radius + positions);
+            float z = sinf(theta) * sinf(phi);vertices.push_back(glm::vec3(x, y, z) * radius + positions);
         }
     }
     return vertices;
@@ -164,6 +162,150 @@ std::vector<vec3> numThree(float rad) {
     return arr;
 
 }
+std::vector<vec3> numFour(float rad) {
+    std::vector<vec3> arr;
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.03 + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.01f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.01f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.01f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.02 + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.03f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.01 + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    return arr;
+
+}
+std::vector<vec3> numFive(float rad) {
+    std::vector<vec3> arr;
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+
+    return arr;
+
+}
+std::vector<vec3> numSix(float rad) {
+    std::vector<vec3> arr;
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+
+
+    return arr;
+
+}
+std::vector<vec3> numSeven(float rad) {
+    std::vector<vec3> arr;
+    arr.push_back(vec3(0.0f + cos(radians(rad)) / 2.8f, 0.02f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.0 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.0 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.045f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.045f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.025 + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    return arr;
+
+}
+std::vector<vec3> numEight(float rad) {
+    std::vector<vec3> arr;
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+
+
+    return arr;
+
+}std::vector<vec3> numNine(float rad) {
+    std::vector<vec3> arr;
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+
+
+    return arr;
+
+}
+std::vector<vec3> numZero(float rad) {
+    std::vector<vec3> arr;
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.005f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.005f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.005f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.075f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.075f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.075f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, -0.075f + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015 + cos(radians(rad)) / 2.8f, 0.005f + sin(radians(rad)) / 2.8f + 1, 0.001));
+
+
+
+    return arr;
+
+}
+
 
 struct NumberFont {
     std::vector<std::pair<vec2, vec2>> segments;
@@ -183,23 +325,42 @@ int main()
 
     Shader ourShader("./shaders/vs/L3.vs", "./shaders/fs/L3.fs");
 
-    
+
     vec3 darkWood = vec3(0.35f, 0.16f, 0.07f);  // rich dark brown
     vec3 midWood = vec3(0.55f, 0.27f, 0.07f);   // mid tone
     vec3 lightWood = vec3(0.76f, 0.60f, 0.42f); // golden highlight
     vec3 gold = vec3(0.9f, 0.8f, 0.4f);         // metallic accent
-    
-  
-  
-    
+
+
+
+
     std::vector<PolygonLine> N;
-    N.push_back(PolygonLine(numOne(60), vec3(0.0f, 0.0f, 0.0f)));
     N.push_back(PolygonLine(numOne(90), vec3(0.0f, 0.0f, 0.0f)));
     N.push_back(PolygonLine(numTwo(87), vec3(0.0f, 0.0f, 0.0f)));
+
+    N.push_back(PolygonLine(numOne(60), vec3(0.0f, 0.0f, 0.0f)));
+
     N.push_back(PolygonLine(numTwo(30), vec3(0.0f, 0.0f, 0.0f)));
-    N.push_back(PolygonLine(numOne(130), vec3(0.0f, 0.0f, 0.0f)));
-    N.push_back(PolygonLine(numOne(135), vec3(0.0f, 0.0f, 0.0f)));
+
     N.push_back(PolygonLine(numThree(0), vec3(0.0f, 0.0f, 0.0f)));
+
+    N.push_back(PolygonLine(numFour(330), vec3(0.0f, 0.0f, 0.0f)));
+
+    N.push_back(PolygonLine(numFive(300), vec3(0.0f, 0.0f, 0.0f)));
+
+    N.push_back(PolygonLine(numSix(270), vec3(0.0f, 0.0f, 0.0f)));
+
+    N.push_back(PolygonLine(numSeven(240), vec3(0.0f, 0.0f, 0.0f)));
+
+    N.push_back(PolygonLine(numEight(210), vec3(0.0f, 0.0f, 0.0f)));
+
+    N.push_back(PolygonLine(numNine(180), vec3(0.0f, 0.0f, 0.0f)));N.push_back(PolygonLine(numZero(147), vec3(0.0f, 0.0f, 0.0f)));
+    N.push_back(PolygonLine(numOne(153), vec3(0.0f, 0.0f, 0.0f)));
+
+    N.push_back(PolygonLine(numOne(118), vec3(0.0f, 0.0f, 0.0f)));
+    N.push_back(PolygonLine(numOne(122), vec3(0.0f, 0.0f, 0.0f)));
+
+
     std::vector<vec3> frontFace = {
         vec3(-0.6f, 1.6f, -0.001f),
         vec3(-0.3f, 0.0f, -0.001f),
@@ -268,9 +429,7 @@ int main()
     vertices22.push_back(vec3(-1.2f, -1.0f, 1.0)); // Down lefr
     vertices22.push_back(vec3(1.2f, -1.0f, 1.0f)); // Down right
     vertices22.push_back(vec3(1.2f, -0.8f, 1.0f)); // top right
-    Polygon Polygon22 = Polygon(vertices22, vec3(0.0f, 0.0f, 1.0f));
-
-    std::vector<vec3> vertices23 = {};  // right side Door  
+    Polygon Polygon22 = Polygon(vertices22, vec3(0.0f, 0.0f, 1.0f));std::vector<vec3> vertices23 = {};  // right side Door  
     vertices23.push_back(vec3(1.0f, 2.0f, 1.0f)); // Top LEFT
     vertices23.push_back(vec3(1.0f, -1.0f, 1.0f)); // Down LEFT
     vertices23.push_back(vec3(1.2f, -1.0f, 1.0f)); // Down right
@@ -283,6 +442,38 @@ int main()
     }
     Polygon Polygon24 = Polygon(vertices24, vec3(0.0f, 0.0f, 0.0f));
 
+
+
+    std::vector<Polygon> MarkCircle;
+
+    for (float i = 0, j = 360; i < 60, j < 360; i++, j += 6) {
+        float x = cos(radians(j)) / 2.8f;
+        float y = sin(radians(j)) / 2.8f;
+
+        if (i == 0 || i == 90 || i == 180 || i == 270) {
+            std::vector<vec3> markVertices = {
+                vec3(x - 0.05f / 2, y - 0.1f / 2, 0.001f),
+                vec3(x + 0.05f / 2, y - 0.1f / 2, 0.001f),
+                vec3(x + 0.05f / 2, y + 0.1f / 2, 0.001f),
+                vec3(x - 0.05f / 2, y + 0.1f / 2, 0.001f)
+            };
+            Polygon mark(markVertices, vec3(1.0f, 0.0f, 1.0f));
+            MarkCircle.push_back(mark);
+
+        }
+        else {
+            std::vector<vec3> markVertices = {
+               vec3(x - 0.005f / 2, y - 0.08f / 2, 0.001f),
+               vec3(x + 0.005f / 2, y - 0.08f / 2, 0.001f),
+               vec3(x + 0.005f / 2, y + 0.08f / 2, 0.001f),
+               vec3(x - 0.005f / 2, y + 0.08f / 2, 0.001f)
+            };
+            Polygon mark(markVertices, vec3(1.0f, 1.0f, 1.0f));
+            MarkCircle.push_back(mark);
+        }
+
+
+    }
 
     //std::vector<PolygonLine> MarkCircle = {};  // mark Circle
     //for (float i = 0, j = 0; i < 12, j <= 360; i++, j += 30) {
@@ -330,9 +521,7 @@ int main()
         vec3(-0.6f, 1.6f, -0.001f),
         vec3(0.6f, 1.6f, -0.001f),
         vec3(0.6f, 1.6f, -0.2f) };
-    Polygon Polygon7(topFace, darkWood);
-
-    // ------------------------------------------------------------
+    Polygon Polygon7(topFace, darkWood);// ------------------------------------------------------------
     // CLOCK FACE (dial)
     // ------------------------------------------------------------
     std::vector<vec3> circleVerts;
@@ -425,9 +614,7 @@ int main()
         Polygon6.draw(ourShader);
         Polygon7.draw(ourShader);
         // back circle
-        mat4 transformation4 = mat4(1.0f);
-
-        transformation4 = translate(transformation4, glm::vec3(0.0f, 1.0f, 0.0f));
+        mat4 transformation4 = mat4(1.0f);transformation4 = translate(transformation4, glm::vec3(0.0f, 1.0f, 0.0f));
         transformation4 = rotate(transformation4, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, -1.0f));
         transformation4 = translate(transformation4, glm::vec3(0.0f, -1.0f, 0.0f));
 
@@ -446,11 +633,11 @@ int main()
         Polygon24.draw(ourShader);
         for (auto it : N) {
             it.draw(ourShader);
-      }
-        /*for (auto mark : MarkCircle)
+        }
+        for (auto mark : MarkCircle)
         {
             mark.draw(ourShader);
-        }*/
+        }
         // Get REAL system time
         int hours, minutes, seconds;
         float milliseconds;
