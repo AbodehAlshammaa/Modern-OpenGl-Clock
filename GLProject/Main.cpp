@@ -12,6 +12,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include "Polygon.cpp"
+#include "PolygonLine.cpp"
 using namespace glm;
 
 int width = 1920;
@@ -123,12 +124,134 @@ std::vector<vec3> drawSphere(vec3 positions, float radius) {
     }
     return vertices;
 }
+std::vector<vec3> numOne(float rad) {
+    std::vector<vec3> NUM_1;
+    NUM_1.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04 + sin(radians(rad)) / 2.8f + 1, 0.001));
+    NUM_1.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    return NUM_1;
+}
+std::vector<vec3> numTwo(float rad) {
+    std::vector<vec3> arr;
 
-// ------------------------------------------------------------
-// MAIN
-// ------------------------------------------------------------
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04 + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    return arr;
+}
+std::vector<vec3> numThree(float rad) {
+    std::vector<vec3> arr;
+    arr.push_back(vec3(-0.015 + cos(radians(rad)) / 2.8f, 0.04 + sin(radians(rad)) / 2.8f + 1, 0.001));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, 0.0f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    arr.push_back(vec3(-0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+    arr.push_back(vec3(0.015f + cos(radians(rad)) / 2.8f, -0.04f + sin(radians(rad)) / 2.8f + 1, 0.001f));
+
+    return arr;
+
+}
+
+struct NumberFont {
+    std::vector<std::pair<vec2, vec2>> segments;
+
+    NumberFont(std::initializer_list<std::pair<vec2, vec2>> list) {
+        segments = list;
+    }
+};
+
+// ---- Simple vector-stroke digits ----
+
+
+
+NumberFont NUM_2 = {
+    {{-0.4, 0.7}, {0.4, 0.7}},
+    {{0.4, 0.7}, {0.4, 0.0}},
+    {{0.4, 0.0}, {-0.4, 0.0}},
+    {{-0.4, 0.0}, {-0.4, -0.7}},
+    {{-0.4, -0.7}, {0.4, -0.7}}
+};
+
+NumberFont NUM_3 = {
+    {{-0.4, 0.7}, {0.4, 0.7}},
+    {{0.4, 0.7}, {0.4, -0.7}},
+    {{0.4, -0.7}, {-0.4, -0.7}},
+    {{-0.4, 0.0}, {0.4, 0.0}}
+};
+
+NumberFont NUM_4 = {
+    {{-0.4, 0.7}, {-0.4, 0.0}},
+    {{-0.4, 0.0}, {0.4, 0.0}},
+    {{0.4, 0.7}, {0.4, -0.7}}
+};
+
+NumberFont NUM_5 = {
+    {{0.4, 0.7}, {-0.4, 0.7}},
+    {{-0.4, 0.7}, {-0.4, 0.0}},
+    {{-0.4, 0.0}, {0.4, 0.0}},
+    {{0.4, 0.0}, {0.4, -0.7}},
+    {{0.4, -0.7}, {-0.4, -0.7}}
+};
+
+NumberFont NUM_6 = {
+    {{0.4, 0.7}, {-0.4, 0.7}},
+    {{-0.4, 0.7}, {-0.4, -0.7}},
+    {{-0.4, -0.7}, {0.4, -0.7}},
+    {{0.4, -0.7}, {0.4, 0.0}},
+    {{0.4, 0.0}, {-0.4, 0.0}}
+};
+
+NumberFont NUM_7 = {
+    {{-0.4, 0.7}, {0.4, 0.7}},
+    {{0.4, 0.7}, {0.0, -0.7}}
+};
+
+NumberFont NUM_8 = {
+    {{-0.4, 0.7}, {0.4, 0.7}},
+    {{-0.4, 0.0}, {0.4, 0.0}},
+    {{-0.4, -0.7}, {0.4, -0.7}},
+    {{-0.4, 0.7}, {-0.4, -0.7}},
+    {{0.4, 0.7}, {0.4, -0.7}}
+};
+
+NumberFont NUM_9 = {
+    {{-0.4, 0.7}, {0.4, 0.7}},
+    {{0.4, 0.7}, {0.4, -0.7}},
+    {{0.4, 0.0}, {-0.4, 0.0}},
+    {{-0.4, 0.0}, {-0.4, 0.7}}
+};
+
+NumberFont NUM_0 = {
+    {{-0.4, 0.7}, {0.4, 0.7}},
+    {{-0.4, -0.7}, {0.4, -0.7}},
+    {{-0.4, 0.7}, {-0.4, -0.7}},
+    {{0.4, 0.7}, {0.4, -0.7}}
+};
+
+// ------- Numbers 10, 11, 12 use two digits ------- 
+
+
 int main()
 {
+
     glfwInit();
     GLFWwindow* window = glfwCreateWindow(width, height, "Real Time Wooden Clock", NULL, NULL);
     glfwMakeContextCurrent(window);
@@ -137,17 +260,23 @@ int main()
 
     Shader ourShader("./shaders/vs/L3.vs", "./shaders/fs/L3.fs");
 
-    // ------------------------------------------------------------
-    // Define wood-tone and accent colors
-    // ------------------------------------------------------------
+    
     vec3 darkWood = vec3(0.35f, 0.16f, 0.07f);  // rich dark brown
     vec3 midWood = vec3(0.55f, 0.27f, 0.07f);   // mid tone
     vec3 lightWood = vec3(0.76f, 0.60f, 0.42f); // golden highlight
     vec3 gold = vec3(0.9f, 0.8f, 0.4f);         // metallic accent
-
-    // ------------------------------------------------------------
-    // CLOCK BODY (wooden case)
-    // ------------------------------------------------------------
+    
+  
+  
+    
+    std::vector<PolygonLine> N;
+    N.push_back(PolygonLine(numOne(60), vec3(1.0f, 0.0f, 1.0f)));
+    N.push_back(PolygonLine(numOne(90), vec3(1.0f, 0.0f, 1.0f)));
+    N.push_back(PolygonLine(numTwo(87), vec3(1.0f, 0.0f, 1.0f)));
+    N.push_back(PolygonLine(numTwo(30), vec3(1.0f, 0.0f, 1.0f)));
+    N.push_back(PolygonLine(numOne(130), vec3(1.0f, 0.0f, 1.0f)));
+    N.push_back(PolygonLine(numOne(135), vec3(1.0f, 0.0f, 1.0f)));
+    N.push_back(PolygonLine(numThree(0), vec3(1.0f, 0.0f, 1.0f)));
     std::vector<vec3> frontFace = {
         vec3(-0.6f, 1.6f, -0.001f),
         vec3(-0.3f, 0.0f, -0.001f),
@@ -230,20 +359,28 @@ int main()
         vertices24.push_back(vec3(cos(i) / 10, sin(i) / 10 + 1.0f, -0.201f)); // TOP LEFT
     }
     Polygon Polygon24 = Polygon(vertices24, vec3(0.0f, 0.0f, 0.0f));
-    std::vector<Polygon> MarkCircle = {};  // mark Circle
-    for (float i = 0, j = 0; i < 12, j <= 360; i++, j += 30) {
-        float x = cos(radians(j)) / 2.8f;
-        float y = sin(radians(j)) / 2.8f;
-        std::vector<vec3> vertices25 = {
-        vec3(x - 0.025f, y - 0.05f + 1.0f, 0.001f), // keft down
-        vec3(x + 0.025f, y - 0.05f + 1.0f, 0.001f), // right down
-        vec3(x + 0.025f, y + 0.05f + 1.0f, 0.001f), // top right
-        vec3(x - 0.025f, y + 0.05f + 1.0f, 0.001f) // top left
-        };
-        Polygon mark(vertices25, vec3(0.0f, 0.0f, 0.0f));
 
-        MarkCircle.push_back(mark);
-    }
+
+    //std::vector<PolygonLine> MarkCircle = {};  // mark Circle
+    //for (float i = 0, j = 0; i < 12, j <= 360; i++, j += 30) {
+    //    float x = cos(radians(j)) / 2.8f;
+    //    float y = sin(radians(j)) / 2.8f + 1;
+    //    std::vector<vec3> vertices25;
+    //    vertices25.push_back(vec3(-0.015 + x, 0.04 + y, 0.001));
+    //    vertices25.push_back(vec3(0.015f + x, 0.04f + y, 0.001f));
+    //    vertices25.push_back(vec3(0.015f+ x, 0.04f + y, 0.001f));
+    //    vertices25.push_back(vec3(0.015f+ x, 0.0f + y, 0.001f));
+    //    vertices25.push_back(vec3(0.015f + x, 0.0f + y, 0.001f));
+    //    vertices25.push_back(vec3(-0.015f + x, 0.0f + y, 0.001f));
+    //    vertices25.push_back(vec3(-0.015f +x, 0.0f + y, 0.001f));
+    //    vertices25.push_back(vec3(-0.015f + x, -0.04f + y, 0.001f));
+    //    vertices25.push_back(vec3(-0.015f + x, -0.04f + y, 0.001f));
+    //    vertices25.push_back(vec3(0.015f+ x, -0.04f + y, 0.001f));
+    //    PolygonLine mark(vertices25, vec3(0.0f, 0.0f, 0.0f));
+
+    //    MarkCircle.push_back(mark);
+    //    //drawNumber(i, ourShader, x, y, 0.15f);
+    //}
     std::vector<vec3> leftFace = {
         vec3(-0.6f, 1.6f, -0.2f),
         vec3(-0.3f, 0.0f, -0.2f),
@@ -384,11 +521,13 @@ int main()
         Polygon22.draw(ourShader);
         Polygon23.draw(ourShader);
         Polygon24.draw(ourShader);
-
-        for (auto mark : MarkCircle)
+        for (auto it : N) {
+            it.draw(ourShader);
+      }
+        /*for (auto mark : MarkCircle)
         {
             mark.draw(ourShader);
-        }
+        }*/
         // Get REAL system time
         int hours, minutes, seconds;
         float milliseconds;
