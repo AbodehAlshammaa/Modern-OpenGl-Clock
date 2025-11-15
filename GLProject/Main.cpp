@@ -467,8 +467,8 @@ int main()
         std::vector<vec3> markVertices;
         if (i % 5 == 0) { // Hour marks (every 5 minutes)
              markVertices = {
-                vec3(x - 0.01f, y - 0.05f , z),
-                vec3(x + 0.01f, y - 0.05f , z),
+                vec3(x - 0.01f, y - 0.04f , z),
+                vec3(x + 0.01f, y - 0.04f , z),
                 vec3(x + 0.01f, y  , z),
                 vec3(x - 0.01f, y , z)
             };
