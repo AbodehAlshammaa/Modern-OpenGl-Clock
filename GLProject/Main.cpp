@@ -196,10 +196,10 @@ int main()
     N.push_back(PolygonLine(numOne(60), vec3(0.0f, 0.0f, 0.0f)));
     N.push_back(PolygonLine(numOne(90), vec3(0.0f, 0.0f, 0.0f)));
     N.push_back(PolygonLine(numTwo(87), vec3(0.0f, 0.0f, 0.0f)));
-    N.push_back(PolygonLine(numTwo(30), vec3(1.0f, 1.0f, 1.0f)));
-    N.push_back(PolygonLine(numOne(130), vec3(1.0f, 1.0f, 1.0f)));
-    N.push_back(PolygonLine(numOne(135), vec3(1.0f, 1.0f, 1.0f)));
-    N.push_back(PolygonLine(numThree(0), vec3(1.0f, 1.0f, 1.0f)));
+    N.push_back(PolygonLine(numTwo(30), vec3(0.0f, 0.0f, 0.0f)));
+    N.push_back(PolygonLine(numOne(130), vec3(0.0f, 0.0f, 0.0f)));
+    N.push_back(PolygonLine(numOne(135), vec3(0.0f, 0.0f, 0.0f)));
+    N.push_back(PolygonLine(numThree(0), vec3(0.0f, 0.0f, 0.0f)));
     std::vector<vec3> frontFace = {
         vec3(-0.6f, 1.6f, -0.001f),
         vec3(-0.3f, 0.0f, -0.001f),
