@@ -618,32 +618,23 @@ int main()
     vec3 positions(0.0f, -0.8f, -0.1f);
     vec3 dancerSphereColor = vec3(0.58f, 0.45f, 0.32f); // Walnut
     float radius = 0.1;
-    Polygon DancerCirclelePolygon = Polygon(drawSphere(positions, radius), midWood);
+    
     vec3 dancerBodyColor = vec3(0, 0, 0);  // Cherry wood
-    std::vector<vec3> dancerBodyVertsFrontFace = {
-        // Top (wider)
-        vec3(-0.07f, 0.2f, -0.075f),
-        vec3(0.07f, 0.2f, -0.075f),
+    Polygon DancerCirclelePolygon = Polygon(drawSphere(positions, radius), midWood);
 
-        // Middle
-        vec3(-0.05f, 0.0f, -0.075f),
-        vec3(0.05f, 0.0f, -0.075f),
+    std::vector<vec3> dancerRectangleVertsFrontFace = {
+        vec3(-0.05f, 0.2f, -0.075f), // TOP LEFT
+        vec3(-0.05f, -0.8f, -0.075f), // DOWN LEFT
+        vec3(0.05f, -0.8f, -0.075f), // DOWN RIGHT
+        vec3(0.05f, 0.2f, -0.075f) };
+    Polygon DancerRectanglePolygonFrontFace(dancerRectangleVertsFrontFace, dancerBodyColor);
 
-        // Bottom (narrower)
-        vec3(-0.03f, -0.8f, -0.075f),
-        vec3(0.03f, -0.8f, -0.075f)
-    };
-    Polygon DancerRectanglePolygonFrontFace(dancerBodyVertsFrontFace, dancerBodyColor);
-
-    std::vector<vec3> dancerBodyVertsBackFace = {
-    vec3(-0.07f, 0.2f, -0.15f),
-    vec3(0.07f, 0.2f, -0.15f),
-    vec3(-0.05f, 0.0f, -0.15f),
-    vec3(0.05f, 0.0f, -0.15f),
-    vec3(-0.03f, -0.8f, -0.15f),
-    vec3(0.03f, -0.8f, -0.15f)
-    };
-    Polygon DancerRectanglePolygonBackFace(dancerBodyVertsBackFace, dancerBodyColor);
+    std::vector<vec3> dancerRectangleVertsBackFace = {
+        vec3(-0.05f, 0.2f, -0.15f), // TOP LEFT
+        vec3(-0.05f, -0.8f, -0.15f), // DOWN LEFT
+        vec3(0.05f, -0.8f, -0.15f), // DOWN RIGHT
+        vec3(0.05f, 0.2f, -0.15f) };
+    Polygon DancerRectanglePolygonBackFace(dancerRectangleVertsBackFace, dancerBodyColor);
 
     // ------------------------------------------------------------
     // SHADER CONFIGURATION
